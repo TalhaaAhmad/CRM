@@ -187,7 +187,7 @@ const Employees: React.FC = () => {
         relationship: employee.emergencyContact?.relationship || '',
       },
     });
-    setPhotoPreview(employee.photo ? `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}` : null);
+    setPhotoPreview(employee.photo ? (employee.photo.startsWith('http') || employee.photo.startsWith('data:') ? employee.photo : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}`) : null);
     setIsDialogOpen(true);
   };
 
@@ -363,7 +363,7 @@ const Employees: React.FC = () => {
                   <TableRow key={employee._id}>
                     <TableCell>
                       <Avatar className="w-10 h-10">
-                        <AvatarImage src={employee.photo ? `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}` : ''} />
+                        <AvatarImage src={employee.photo ? (employee.photo.startsWith('http') || employee.photo.startsWith('data:') ? employee.photo : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}`) : ''} />
                         <AvatarFallback>
                           <UserIcon className="w-5 h-5 text-slate-400" />
                         </AvatarFallback>

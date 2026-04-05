@@ -54,7 +54,7 @@ export const SalarySlipDocument = React.forwardRef<HTMLDivElement, SalarySlipDoc
             <div className="w-32 h-36 border-2 border-slate-300 overflow-hidden flex items-center justify-center text-slate-400 text-sm italic bg-slate-50">
               {employee?.photo ? (
                 <img 
-                  src={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}`} 
+                  src={employee.photo.startsWith('http') || employee.photo.startsWith('data:') ? employee.photo : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}${employee.photo}`} 
                   alt="Employee"
                   className="w-full h-full object-cover"
                 />

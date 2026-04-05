@@ -15,34 +15,15 @@ const { protect } = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
 
-// Multer storage configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, `employee-${Date.now()}${path.extname(file.originalname)}`);
-  }
-});
-
-// File filter for images (jpg, jpeg, png)
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-  }
-};
+// Configure memory storage for Base64 conversion
+const storage = multer.memoryStorage();
 
 const upload = multer({ 
   storage: storage,
-  fileFilter: fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 } // 2MB limit
+  limits: { fileSize: 1 * 1024 * 1024 } // 1MB limit for MongoDB storage
 });
+
+
 
 router.get('/stats/overview', protect, getEmployeeStats);
 

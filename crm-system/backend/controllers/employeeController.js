@@ -85,9 +85,11 @@ exports.createEmployee = async (req, res) => {
       delete req.body.photo;
     }
 
-    // Handle photo file if uploaded
+    // Handle photo file - convert to Base64 (MongoDB storage)
     if (req.file) {
-      req.body.photo = `/uploads/${req.file.filename}`;
+      const b64 = req.file.buffer.toString('base64');
+      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+      req.body.photo = dataURI;
     }
 
     // Handle emergencyContact if it is stringified JSON (common when using FormData)
@@ -136,9 +138,11 @@ exports.updateEmployee = async (req, res) => {
       delete req.body.photo;
     }
 
-    // Handle photo file if uploaded
+    // Handle photo file - convert to Base64 (MongoDB storage)
     if (req.file) {
-      req.body.photo = `/uploads/${req.file.filename}`;
+      const b64 = req.file.buffer.toString('base64');
+      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+      req.body.photo = dataURI;
     }
 
     // Handle emergencyContact if it is stringified JSON
